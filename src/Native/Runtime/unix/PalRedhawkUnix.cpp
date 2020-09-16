@@ -630,6 +630,7 @@ REDHAWK_PALEXPORT bool REDHAWK_PALAPI PalStartBackgroundWork(_In_ BackgroundCall
 
     if (highPriority && st == 0)
     {
+<<<<<<< Updated upstream
         int policy = SCHED_RR;
         int maxPriority = sched_get_priority_max(policy);
 
@@ -645,6 +646,43 @@ REDHAWK_PALEXPORT bool REDHAWK_PALAPI PalStartBackgroundWork(_In_ BackgroundCall
             // This can fail if the process has not enough privileges to change the scheduler.
             // But there is nothing we can do so no error check is needed.
             pthread_setschedparam(threadId, policy, &params);
+=======
+        int priorityPercent = 32; // TODO Get from config
+
+        if (priorityPercent > 0)
+        {
+            priorityPercent = max(priorityPercent, 100);
+
+            int policy;
+            sched_param params;
+
+            if (pthread_getschedparam(threadId, &policy, &params) == 0)
+            {
+                int maxPriority = sched_get_priority_max(policy);
+
+                if (maxPriority <= 0)
+                {
+                    policy = SCHED_RR;
+
+                    maxPriority = sched_get_priority_max(policy);
+                }
+
+                if (maxPriority > 0)
+                {
+
+                    maxPriority = maxPriority * priorityPercent / 100;
+
+                    sched_param params;
+                    memset(&params, 0, sizeof(sched_param));
+
+                    params.sched_priority = maxPriority;
+
+                    // This can fail if the process has not enough privileges to change the scheduler.
+                    // But there is nothing we can do so no error check is needed.
+                    pthread_setschedparam(threadId, policy, &params);
+                }
+            }
+>>>>>>> Stashed changes
         }
     }
 

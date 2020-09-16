@@ -19,6 +19,8 @@
 #include "gcenv.base.h"
 #include "gcenv.os.h"
 #include "gcenv.unix.inl"
+#include "gcenv.ee.h"
+#include "gcconfig.h"
 #include "volatile.h"
 
 #if HAVE_SWAPCTL
@@ -1033,6 +1035,18 @@ bool GCToOSInterface::SetThreadAffinity(uint16_t procNo)
 //  true if the priority boost was successful, false otherwise.
 bool GCToOSInterface::BoostThreadPriority()
 {
+<<<<<<< Updated upstream
+=======
+    uint64_t priorityPercent = GCConfig::GetGCBostedThreadPriorityPercent();
+
+    if (priorityPercent <= 0)
+    {
+        return false;
+    }
+
+    priorityPercent = max(priorityPercent, (uint64_t)100);
+
+>>>>>>> Stashed changes
     pthread_t thread = pthread_self();
 
     int policy;
@@ -1057,7 +1071,11 @@ bool GCToOSInterface::BoostThreadPriority()
         }
     }
 
+<<<<<<< Updated upstream
     max = max * 9 / 10;
+=======
+    max = max * priorityPercent / 100;
+>>>>>>> Stashed changes
 
     if (param.sched_priority >= max)
     {

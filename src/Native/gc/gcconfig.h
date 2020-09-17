@@ -128,6 +128,7 @@ public:
     INT_CONFIG   (GCHeapHardLimitSOHPercent, "GCHeapHardLimitSOHPercent", NULL,                             0,                 "Specifies the GC heap SOH usage as a percentage of the total memory")              \
     INT_CONFIG   (GCHeapHardLimitLOHPercent, "GCHeapHardLimitLOHPercent", NULL,                             0,                 "Specifies the GC heap LOH usage as a percentage of the total memory")              \
     INT_CONFIG   (GCHeapHardLimitPOHPercent, "GCHeapHardLimitPOHPercent", NULL,                             0,                 "Specifies the GC heap POH usage as a percentage of the total memory")              \
+    INT_CONFIG   (GCBostedThreadPriorityPercent, "GCBostedThreadPriorityPercent", NULL,               32,                 "Specifies the priority for boosted threads in percent of the maximum")              \
 
 // This class is responsible for retreiving configuration information
 // for how the GC should operate.
